@@ -1,0 +1,17 @@
+###
+
+POST http://localhost:8000/api/login
+Content-Type: application/json
+{
+   "phone": "07051440107",
+   "password": "secret"
+}
+
+###
+
+POST http://localhost:8000/api/comments
+Content-Type: application/json
+{
+   "body": "07051440107",
+   "user_id": 1
+}

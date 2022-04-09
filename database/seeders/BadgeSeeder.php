@@ -1,0 +1,34 @@
+<?php
+
+namespace Database\Seeders;
+
+use Carbon\Carbon;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+class BadgeSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        $badges = [
+            ["name" => "beginner"],
+            ["name" => "intermediate"],
+            ["name" => "advanced"],
+        ];
+
+        DB::table("badges")->truncate();
+
+        foreach($badges as $badge) {
+            DB::table("badges")->insert([
+                "name" => $badge['name'],
+                "created_at" => Carbon::now(),
+                "updated_at" => Carbon::now()
+            ]);
+        }
+    }
+}
