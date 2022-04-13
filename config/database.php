@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Str;
 
-$url = getenv('JAWSDB_URL');
+$url = getenv('JAWSDB_MARIA_URL');
 $dbparts = parse_url($url);
 
 $hostname = $dbparts['host'];

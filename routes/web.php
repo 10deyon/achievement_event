@@ -8,6 +8,10 @@ use App\Models\Comment;
 use App\Models\Lesson;
 use App\Models\User;
 
+Route::get('/', function () use ($router) {
+   return "event-assessment";
+});
+
 Route::get('/users/{user}/achievements', [AchievementsController::class, 'index']);
 
 Route::get('/users/comment', function() {
