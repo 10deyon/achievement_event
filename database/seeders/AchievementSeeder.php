@@ -15,22 +15,20 @@ class AchievementSeeder extends Seeder
      */
     public function run()
     {
-        $achievements = [
-            ["name" => "beginner"],
-            ["name" => "intermediate"],
-            ["name" => "advanced"],
-        ];
-
-        DB::table("achievements")->truncate();
-
-        foreach($achievements as $achievement) {
-            DB::table("achievements")->insert([
-                "name" => $achievement['name'],
+        for ($i=1; $i <= 20; $i++) {
+            DB::table("commentachvment")->insert([
+                "name" => $i . " Comment Written",
                 "created_at" => Carbon::now(),
                 "updated_at" => Carbon::now()
             ]);
         }
 
-        
+        for ($i=1; $i <= 20; $i++) {
+            DB::table("lessonachvment")->insert([
+                "name" => $i . " Lessons Watched",
+                "created_at" => Carbon::now(),
+                "updated_at" => Carbon::now()
+            ]);
+        }
     }
 }

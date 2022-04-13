@@ -16,16 +16,16 @@ class BadgeSeeder extends Seeder
     public function run()
     {
         $badges = [
-            ["name" => "beginner"],
-            ["name" => "intermediate"],
-            ["name" => "advanced"],
+            ["name" => "beginner", "level" => 5],
+            ["name" => "intermediate", "level" => 10],
+            ["name" => "professional", "level" => 15],
+            ["name" => "advanced", "level" => 20],
         ];
-
-        DB::table("badges")->truncate();
-
+        
         foreach($badges as $badge) {
             DB::table("badges")->insert([
                 "name" => $badge['name'],
+                "level" => $badge['level'],
                 "created_at" => Carbon::now(),
                 "updated_at" => Carbon::now()
             ]);

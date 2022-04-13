@@ -1,36 +1,61 @@
 <?php
 
-namespace App\Providers;
+namespace App\Listeners;
 
-use App\Providers\AchievementUnlocked;
-use App\Repositories\CommentRepository;
+use App\Events\AchievementUnlocked;
+use App\Events\BadgeUnlocked;
+use App\Models\Badge;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\DB;
 
 class AchievementUnlockedListener
 {
-    public $achievement;
+    const FIRST_LEVEL = 5;
+    const SECOND_LEVEL = 10;
+    const THIRD_LEVEL = 15;
+    const FOURTH_LEVEL = 20;
 
     /**
      * Create the event listener.
      *
      * @return void
      */
-    public function __construct(CommentRepository $achievement)
+    public function __construct()
     {
-        $this->achievement = $achievement;
+        //
     }
-
-    /**
-     * Handle the event.
-     *
-     * @param  \App\Providers\AchievementUnlocked  $event
-     * @return void
-     */
+    
     public function handle(AchievementUnlocked $event)
     {
-        $achievement = $event->achievement;
+        $comment = $event->comment;
+        $user = $event->user;
+        
+        $achievement_num = DB::table('achievement_user')->where('user_id', $user->id)->count();
 
-        $this->achievement->storeAchievement($achievement);
+        if ($achievement_num === self::FIRST_LEVEL) {
+            $badgeId = 1;
+            $this->badgeUnlocked($user, $badgeId);}
+
+        if ($achievement_num === self::SECOND_LEVEL) {
+            $badgeId = 2;
+            $this->badgeUnlocked($user, $badgeId);
+        }
+
+        if ($achievement_num === self::THIRD_LEVEL) {
+            $badgeId = 3;
+            $this->badgeUnlocked($user, $badgeId);
+        }
+
+        if ($achievement_num === self::FOURTH_LEVEL) {
+            $badgeId = 4; 
+            $this->badgeUnlocked($user, $badgeId);
+        }
+    }
+
+    public function badgeUnlocked($user, $badgeId)
+    {
+        $badge = Badge::find($badgeId);
+        event( new BadgeUnlocked($badge, $user) );
     }
 }

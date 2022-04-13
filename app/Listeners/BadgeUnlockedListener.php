@@ -1,24 +1,21 @@
 <?php
 
-namespace App\Providers;
+namespace App\Listeners;
 
-use App\Providers\BadgeUnlocked;
-use App\Repositories\CommentRepository;
+use App\Events\BadgeUnlocked;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
 class BadgeUnlockedListener
 {
-    public $badge;
-
     /**
      * Create the event listener.
      *
      * @return void
      */
-    public function __construct(CommentRepository $badge)
+    public function __construct()
     {
-        $this->badge = $badge;
+        //
     }
 
     /**
@@ -30,7 +27,9 @@ class BadgeUnlockedListener
     public function handle(BadgeUnlocked $event)
     {
         $badge = $event->badge;
+        $user = $event->user;
 
-        $badgeSaved = $this->badge->storeBadge($badge);
+        $user->badges()->attach($badge->id, ['status' => true]);
+        
     }
 }

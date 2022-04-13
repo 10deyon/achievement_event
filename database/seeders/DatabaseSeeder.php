@@ -17,10 +17,9 @@ class DatabaseSeeder extends Seeder
         //     ->count(20)
         //     ->create();
         
-        $this->call(CommentSeeder::class);
         $this->call(LessonSeeder::class);
         $this->call(UserSeeder::class);
-        // $this->call(BadgeSeeder::class);
-        // $this->call(AchievementSeeder::class);
+        $this->call(BadgeSeeder::class);
+        $this->call(AchievementSeeder::class);
     }
 }

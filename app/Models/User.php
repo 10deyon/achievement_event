@@ -65,23 +65,19 @@ class User extends Authenticatable
         return $this->belongsToMany(Lesson::class)->wherePivot('watched', true);
     }
 
-        /**
-     * Get the identifier that will be stored in the subject claim of the JWT.
-     *
-     * @return mixed
+    /**
+     * The achievements that a user has unlocked.
      */
-    public function getJWTIdentifier()
+    public function achievements()
     {
-        return $this->getKey();
+        return $this->belongsToMany(Achievement::class);
     }
 
     /**
-     * Return a key value array, containing any custom claims to be added to the JWT.
-     *
-     * @return array
+     * The badges that a user has unlocked.
      */
-    public function getJWTCustomClaims()
+    public function badges()
     {
-        return [];
+        return $this->belongsToMany(Badge::class)->wherePivot('status', true);
     }
 }

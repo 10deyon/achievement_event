@@ -2,27 +2,23 @@
 
 namespace App\Listeners;
 
+use App\Events\AchievementUnlocked;
 use App\Events\CommentWritten;
-use App\Models\Achievement;
-use App\Models\Comment;
-use App\Providers\AchievementUnlocked;
-use App\Repositories\CommentRepository;
-use Carbon\Carbon;
+use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\DB;
 
 class CommentWrittenListener
 {
-    public $comment;
     /**
      * Create the event listener.
      *
      * @return void
      */
-    public function __construct(CommentRepository $comment)
+    public function __construct()
     {
-        $this->comment = $comment;
+        //
     }
 
     /**
@@ -34,11 +30,14 @@ class CommentWrittenListener
     public function handle(CommentWritten $event)
     {
         $comment = $event->comment;
+        $user = User::find($comment->user_id);
 
-        $commentStored = $this->comment->store($comment);
-
-        if ($commentStored) {
-            event (new AchievementUnlocked(new Achievement()));
-        }
+        DB::table('achievement_user')->insertGetId([
+            'user_id' => $user->id, 
+            'achievement_id' => $comment->id,
+            'status' => true,
+            'type' => 'comment'
+        ]);
+        event( new AchievementUnlocked($comment, $user) );
     }
 }

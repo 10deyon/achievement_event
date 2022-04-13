@@ -2,8 +2,6 @@
 
 namespace App\Events;
 
-use App\Models\User;
-use App\Models\Lesson;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -20,7 +18,7 @@ class LessonWatched
      *
      * @return void
      */
-    public function __construct(Lesson $lesson, User $user)
+    public function __construct($lesson, $user)
     {
         $this->lesson = $lesson;
         $this->user = $user;
@@ -33,6 +31,6 @@ class LessonWatched
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('lesson-watched');
+        return new PrivateChannel('channel-name');
     }
 }
