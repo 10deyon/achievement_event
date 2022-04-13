@@ -22,10 +22,15 @@ Route::get('/users/comment', function() {
    ]);
    
    event( new CommentWritten($comment) );
+
+   return response()->json('Comment written');
 });
 
 Route::get('/users/lesson/{lesson}', function(Lesson $lesson) {
    $user = User::inRandomOrder()->first();
    
    event( new LessonWatched($lesson, $user) );
+
+   return response()->json('Lesson watched');
+
 });
